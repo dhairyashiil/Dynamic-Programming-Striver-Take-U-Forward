@@ -1,0 +1,70 @@
+// Question Link : https://www.codingninjas.com/codestudio/problems/frog-jump_3621012
+// Video Link : https://youtu.be/EgG3jsGoPvQ
+
+#include <bits/stdc++.h> 
+
+/*
+// Code 1 :
+int getMinimumTotalEnergy(int index, vector<int> &heights, vector<int> &dp) {
+    if(index == 0) return 0;
+
+    if(dp[index] != -1) return dp[index];
+
+    int left = getMinimumTotalEnergy(index-1, heights, dp)
+            + abs(heights[index] - heights[index-1]);
+    
+    int right = INT_MAX;
+    if(index > 1) {
+        right = getMinimumTotalEnergy(index-2, heights, dp) 
+            + abs(heights[index] - heights[index-2]);
+    }
+
+    return dp[index] = min(left, right);
+}
+
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int> dp(n+1, -1);
+    return getMinimumTotalEnergy(n-1, heights, dp);
+}
+*/
+
+/*
+// Code 2:
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int> dp(n+1, 0);
+    dp[0] = 0;
+
+    for(int i=1; i<n; i++) {
+        int left = dp[i-1] + abs(heights[i] - heights[i-1]);
+
+        int right = INT_MAX;
+        if(i > 1) right = dp[i-2] + abs(heights[i] - heights[i-2]);
+
+        dp[i] = min(left, right);
+    }
+    return dp[n-1];
+}
+*/
+
+// Code 3 :
+int frogJump(int n, vector<int> &heights)
+{
+    int prev = 0;
+    int prev2 = 0;
+    int curr;
+
+    for(int i=1; i<n; i++) {
+        int left = prev + abs(heights[i] - heights[i-1]);
+
+        int right = INT_MAX;
+        if(i > 1) right = prev2 + abs(heights[i] - heights[i-2]);
+
+        curr = min(left, right);
+
+        prev2 = prev;
+        prev = curr;
+    }
+    return prev;
+}
